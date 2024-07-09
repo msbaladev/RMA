@@ -1,4 +1,5 @@
-{% load static %}
+{% load static %} {% load rma_tags %} {% get_previous_quarter as prev_qtr %} 
+{% Current_quarter as cur_qtr %} {% get_Next_quarter as next_qtr %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -28,129 +29,55 @@
 
     <link href="{% static 'css/app.css' %}" rel="stylesheet" />
 
-	<link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables/css/dataTables.bootstrap4.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'plugins/datatables/css/responsive.bootstrap4.min.css' %}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'plugins/datatables/css/dataTables.bootstrap4.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'plugins/datatables/css/responsive.bootstrap4.min.css' %}"
+    />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      .icons:hover {
+        width: 50%;
+      }
+    </style>
   </head>
 
   <body>
+    {% include 'Modals/RMA_modals.html' %}
     <div class="wrapper">
       <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-          <a class="sidebar-brand" href="index.html">
+          <a class="sidebar-brand" href="/">
             <span class="align-middle">RMA</span>
           </a>
 
           <ul class="sidebar-nav">
             <li class="sidebar-header">Pages</li>
 
-            <li class="sidebar-item active">
-              <a class="sidebar-link" href="index.html">
+            <li class="sidebar-item active nav-item dropdown" >
+              <a class="sidebar-link" href="/">
                 <i class="align-middle" data-feather="sliders"></i>
                 <span class="align-middle">Dashboard</span>
               </a>
             </li>
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-profile.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span class="align-middle">Profile</span>
-              </a>
-            </li>
+          
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-sign-in.html">
-                <i class="align-middle" data-feather="log-in"></i>
-                <span class="align-middle">Sign In</span>
-              </a>
-            </li>
+        
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-sign-up.html">
-                <i class="align-middle" data-feather="user-plus"></i>
-                <span class="align-middle">Sign Up</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-blank.html">
-                <i class="align-middle" data-feather="book"></i>
-                <span class="align-middle">Blank</span>
-              </a>
-            </li>
-
-            <li class="sidebar-header">Tools & Components</li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-buttons.html">
-                <i class="align-middle" data-feather="square"></i>
-                <span class="align-middle">Buttons</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-forms.html">
-                <i class="align-middle" data-feather="check-square"></i>
-                <span class="align-middle">Forms</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-cards.html">
-                <i class="align-middle" data-feather="grid"></i>
-                <span class="align-middle">Cards</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-typography.html">
-                <i class="align-middle" data-feather="align-left"></i>
-                <span class="align-middle">Typography</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="icons-feather.html">
-                <i class="align-middle" data-feather="coffee"></i>
-                <span class="align-middle">Icons</span>
-              </a>
-            </li>
-
-            <li class="sidebar-header">Plugins & Addons</li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="charts-chartjs.html">
-                <i class="align-middle" data-feather="bar-chart-2"></i>
-                <span class="align-middle">Charts</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="maps-google.html">
-                <i class="align-middle" data-feather="map"></i>
-                <span class="align-middle">Maps</span>
-              </a>
-            </li>
           </ul>
 
-          <div class="sidebar-cta">
-            <div class="sidebar-cta-content">
-              <strong class="d-inline-block mb-2">Upgrade to Pro</strong>
-              <div class="mb-3 text-sm">
-                Are you looking for more components? Check out our premium
-                version.
-              </div>
-              <div class="d-grid">
-                <a href="upgrade-to-pro.html" class="btn btn-primary"
-                  >Upgrade to Pro</a
-                >
-              </div>
-            </div>
-          </div>
+          
         </div>
       </nav>
 
@@ -359,7 +286,7 @@
                     class="avatar img-fluid rounded me-1"
                     alt="Charles Hall"
                   />
-                  <span class="text-dark">Charles Hall</span>
+                  <span class="text-dark">Superadmin</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="pages-profile.html"
@@ -392,128 +319,138 @@
 
         <main class="content">
           <div class="container-fluid p-0">
-            <h1 class="h3 mb-3"><strong>Analytics</strong> Dashboard</h1>
+            <h1 class="h3 mb-3"><strong>RMA</strong> Dashboard</h1>
+
+            <div class="form-group">
+              <select class="form-control form-control-sm" id="quarter" onchange="loadDashboardchart($(this).val())" required>
+                <option value="" disabled>Quarter</option>
+                <option value="{{ prev_qtr.1 }}" {%if prev_qtr.1 == quarter %} selected{% endif %}>{{ prev_qtr.2 }} to {{ prev_qtr.1 }}</option>
+                <option value="{{ prev_qtr.0 }}" {%if prev_qtr.0 == quarter %} selected{% endif %}>{{ prev_qtr.1 }} to {{ prev_qtr.0 }}</option>
+                <option value="{{ cur_qtr }}" {%if cur_qtr == quarter  %} selected {% endif %} >{{ prev_qtr.0 }} to {{ cur_qtr }}</option>
+                <option value="{{ next_qtr.0 }}"  {%if next_qtr.0 == quarter  %} selected {% endif %} >{{ cur_qtr }} to {{ next_qtr.0 }}</option>
+              </select>
+            </div>
+            
 
             <div class="row">
-              <div class="col-xl-6 col-xxl-5 d-flex">
-                <div class="w-100">
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col mt-0">
-                              <h5 class="card-title">Sales</h5>
-                            </div>
-
-                            <div class="col-auto">
-                              <div class="stat text-primary">
-                                <i
-                                  class="align-middle"
-                                  data-feather="truck"
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                          <h1 class="mt-1 mb-3">2.382</h1>
-                          <div class="mb-0">
-                            <span class="text-danger">
-                              <i class="mdi mdi-arrow-bottom-right"></i> -3.65%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col mt-0">
-                              <h5 class="card-title">Visitors</h5>
-                            </div>
-
-                            <div class="col-auto">
-                              <div class="stat text-primary">
-                                <i
-                                  class="align-middle"
-                                  data-feather="users"
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                          <h1 class="mt-1 mb-3">14.212</h1>
-                          <div class="mb-0">
-                            <span class="text-success">
-                              <i class="mdi mdi-arrow-bottom-right"></i> 5.25%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col mt-0">
-                              <h5 class="card-title">Earnings</h5>
-                            </div>
-
-                            <div class="col-auto">
-                              <div class="stat text-primary">
-                                <i
-                                  class="align-middle"
-                                  data-feather="dollar-sign"
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                          <h1 class="mt-1 mb-3">$21.300</h1>
-                          <div class="mb-0">
-                            <span class="text-success">
-                              <i class="mdi mdi-arrow-bottom-right"></i> 6.65%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="row">
-                            <div class="col mt-0">
-                              <h5 class="card-title">Orders</h5>
-                            </div>
-
-                            <div class="col-auto">
-                              <div class="stat text-primary">
-                                <i
-                                  class="align-middle"
-                                  data-feather="shopping-cart"
-                                ></i>
-                              </div>
-                            </div>
-                          </div>
-                          <h1 class="mt-1 mb-3">64</h1>
-                          <div class="mb-0">
-                            <span class="text-danger">
-                              <i class="mdi mdi-arrow-bottom-right"></i> -2.25%
-                            </span>
-                            <span class="text-muted">Since last week</span>
-                          </div>
-                        </div>
-                      </div>
+              <div class="col-xl-6 col-xxl-7">
+                <div class="card flex-fill w-100">
+                  <!-- <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Movement</h5>
+                  </div> -->
+                  <div class="card-body py-3">
+                    <div class="chart chart-sm">
+                      <canvas id="chartjs-dashboard-line"></canvas>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="col-xl-6 col-xxl-7">
-                <div class="card flex-fill w-100">
-                  <div class="card-header">
-                    <h5 class="card-title mb-0">Recent Movement</h5>
-                  </div>
-                  <div class="card-body py-3">
-                    <div class="chart chart-sm">
-                      <canvas id="chartjs-dashboard-line"></canvas>
+              <div class="col-xl-6 col-xxl-5 d-flex">
+                <div class="w-100">
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div
+                        class="card"
+                        style="border-radius: 40px; cursor: pointer"
+                      >
+                        <div class="card-body"> 
+                          <div
+                            class="d-flex align-items-center"
+                            data-toggle="modal"
+                            data-target="#uploadModal"
+                          >
+                            <img
+                              src="../static/img/upload_1.png"
+                              class="w-25 h-25"
+                            />
+                            <h1
+                              class="ml-4"
+                              style="
+                                margin-left: 4px;
+                                margin-top: 5px;
+                                font-size: x-large;
+                              "
+                            >
+                              Bulk Upload
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="card"
+                        style="border-radius: 40px; cursor: pointer"
+                        
+                        data-toggle="modal"
+                        data-target="#bulk_approval_modal"
+                      >
+                        <div class="card-body">
+                          <div class="d-flex align-items-center">
+                            <img
+                              src="../static/img/verified.png"
+                              class="w-25 h-25"
+                            />
+                            <h1
+                              class="ml-4"
+                              style="
+                                margin-left: 4px;
+                                margin-top: 5px;
+                                font-size: x-large;
+                              "
+                            >
+                              Bulk Approval
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div
+                        class="card"
+                        style="border-radius: 40px; cursor: pointer"
+                      >
+                        <div class="card-body">
+                          <div class="d-flex align-items-center">
+                            <img
+                              src="../static/img/letter.png"
+                              class="w-25 h-25"
+                            />
+                            <h1
+                              class="ml-4"
+                              style="
+                                margin-left: 4px;
+                                margin-top: 5px;
+                                font-size: x-large;
+                              "
+                            >
+                              Attachments
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="card"
+                        style="border-radius: 40px; cursor: pointer"
+                      >
+                        <div class="card-body">
+                          <div class="d-flex align-items-center">
+                            <img
+                              src="../static/img/upload_1.png"
+                              class="w-25 h-25"
+                            />
+                            <h1
+                              class="ml-4"
+                              style="
+                                margin-left: 4px;
+                                margin-top: 5px;
+                                font-size: x-large;
+                              "
+                            >
+                              Bulk Upload
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -549,39 +486,27 @@
                     </tr>
                   </thead>
                   <tbody id="table_data">
+                    {% for i in data  %}
                     <tr>
-                      <td>  <div class="dt-checkbox">
-						<input
-						  type="checkbox"
-						  name="select_all"
-						  value="1"
-						  id="example-select-all"
-						/>
-						<span class="dt-checkbox-label"></span>
-					  </div></td>
-                      <td>Hello</td>
+                      <td>
+                        <div class="dt-checkbox">
+                          <input
+                            type="checkbox"
+                            name="select_all"
+                            value="1"
+                            id="example-select-all"
+                          />
+                          <span class="dt-checkbox-label"></span>
+                        </div>
+                      </td>
+                      <td>{{i.id}}</td>
                       <td>Hello</td>
                       <td>Hello</td>
                       <td>Hello</td>
                       <td>Hello</td>
                     </tr>
-					<tr>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-					  </tr>
-					  <tr>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-						<td>Hello</td>
-					  </tr>
-
+                    {% endfor %}
+                   
                   </tbody>
                 </table>
               </div>
@@ -596,9 +521,9 @@
                 <p class="mb-0">
                   <a
                     class="text-muted"
-                    href="https://adminkit.io/"
+                    href="https://github.com/msbala007/"
                     target="_blank"
-                    ><strong>AdminKit</strong></a
+                    ><strong>bala</strong></a
                   >
                   &copy;
                 </p>
@@ -614,28 +539,15 @@
                     >
                   </li>
                   <li class="list-inline-item">
-                    <a
-                      class="text-muted"
-                      href="https://adminkit.io/"
-                      target="_blank"
+                    <a class="text-muted" href="/" target="_blank"
                       >Help Center</a
                     >
                   </li>
                   <li class="list-inline-item">
-                    <a
-                      class="text-muted"
-                      href="https://adminkit.io/"
-                      target="_blank"
-                      >Privacy</a
-                    >
+                    <a class="text-muted" href="/" target="_blank">Privacy</a>
                   </li>
                   <li class="list-inline-item">
-                    <a
-                      class="text-muted"
-                      href="https://adminkit.io/"
-                      target="_blank"
-                      >Terms</a
-                    >
+                    <a class="text-muted" href="/" target="_blank">Terms</a>
                   </li>
                 </ul>
               </div>
@@ -645,14 +557,14 @@
       </div>
     </div>
 
-	<script src="{% static 'plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
-	<script src="{% static 'plugins/datatables/js/dataTables.bootstrap4.min.js' %} "></script>
-	<script src="{% static 'plugins/datatables/js/dataTables.responsive.min.js' %}
+    <script src="{% static 'plugins/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables/js/dataTables.bootstrap4.min.js' %} "></script>
+    <script src="{% static 'plugins/datatables/js/dataTables.responsive.min.js' %}
 	"></script>
-	<script src="{% static 'plugins/datatables/js/responsive.bootstrap4.min.js' %
+    <script src="{% static 'plugins/datatables/js/responsive.bootstrap4.min.js' %
 	}"></script>
-	<!-- buttons for Export datatable -->
-	<script src="{% static 'plugins/datatables/js/dataTables.buttons.min.js' %}"></script>
+    <!-- buttons for Export datatable -->
+     <!-- <script src="{% static 'plugins/datatables/js/dataTables.buttons.min.js' %}"></script>
 	<script src="{% static 'plugins/datatables/js/buttons.bootstrap4.min.js' %}
 	"></script>
 	<script src="{% static 'plugins/datatables/js/buttons.print.min.js' %}"></script>
@@ -661,7 +573,7 @@
 	<script src="{% static 'plugins/datatables/js/buttons.flash.min.js' %}"></script>
 	<script src="{% static 'plugins/datatables/js/pdfmake.min.js' %}"></script>
 	<script src="{% static 'plugins/datatables/js/vfs_fonts.js' %}"></script>
-	<script src="{% static 'vendors/scripts/datatable-setting.js' %}"></script>
+	<script src="{% static 'vendors/scripts/datatable-setting.js' %}"></script>  -->
 
     <script src="{% static 'js/app.js' %}"></script>
 

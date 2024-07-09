@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Upload Modal</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+      /* .upload-modal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+        .upload-icon {
+            font-size: 48px;
+            color: #007bff;
+        }
+        .upload-text {
+            margin: 10px 0;
+        }
+        .upload-button {
+            width: 80%;
+        } */
+    </style>
+  </head>
+  <body>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="uploadModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="uploadModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container mt-">
+              <form
+                action="{% url 'file-upload' quarter %}"
+                id="rma_upoload"
+                method="POST"
+                class="form"
+                enctype="multipart/form-data"
+              >
+                {% csrf_token %}
+                <div class="form-group">
+                  <label
+                    for="file-upload"
+                    class="form-label"
+                    style="color: black; font-weight: 200"
+                    >Attach Files</label
+                  >
+                  <small class="form-text text-muted mb-2"
+                    >Attach any relevant Files</small
+                  >
+                  <div
+                    class="file-upload-wrapper"
+                    onclick="document.getElementById('file-upload').click();"
+                  >
+                    <span
+                      ><span class="text-primary">Choose file </span>or drop
+                      here</span
+                    >
+                    <input
+                      id="file-upload"
+                      type="file"
+                      name="file"
+                      onchange="handleFileUpload(event)"
+                    />
+                  </div>
+                  <div
+                    id="file-upload-info"
+                    class="file-upload-info mt-3"
+                  ></div>
+
+                  <div class="d-flex justify-content-center mt-1">
+                    <button
+                      class="btn"
+                      type="submit"
+                      style="
+                        background-color: #007bff;
+                        outline: none;
+                        padding: 2px 20px;
+                        color: aliceblue;
+                      "
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="bulk_approval_modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="uploadModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="container mt-">
+              <form
+                action="{% url 'RMA_iness_bulk_upload' quarter %}"
+                id="rma_upoload"
+                method="POST"
+                class="form"
+                enctype="multipart/form-data"
+              >
+                {% csrf_token %}
+                <div class="form-group">
+                <section class="d-flex justify-content-between align-items-center">
+                  <div >
+                    <label
+                      for="file-upload"
+                      class="form-label"
+                      style="color: black; font-weight: 200"
+                      >Attach Files</label
+                    >
+                    <small class="form-text text-muted mb-2"
+                      >Attach any relevant Files</small
+                    >
+                  </div>
+
+                  <a href="{% url 'download_Iness_rma_bulkapproval' quarter %}" class="" style="color: blue; cursor: pointer; font-size: larger;">
+                    <i class="fa-solid fa-download"></i>
+                  </a>
+                </section>
+                  <div
+                    class="file-upload-wrapper mt-4"
+                    onclick="document.getElementById('file-upload').click();"
+                  >
+                    <span
+                      ><span class="text-primary">Choose file </span>or drop
+                      here</span
+                    >
+                    <input
+                      id="file-upload"
+                      type="file"
+                      name="rma_bulk_file"
+                      onchange="handleBulkUpload(event)"
+                    />
+                  </div>
+                  <div
+                    id="bulk-upload-info"
+                    class="file-upload-info mt-3"
+                  ></div>
+
+                  <div class="d-flex justify-content-center mt-1">
+                    <button
+                      class="btn"
+                      type="submit"
+                      style="
+                        background-color: #007bff;
+                        outline: none;
+                        padding: 2px 20px;
+                        color: aliceblue;
+                      "
+                    >
+                      Upload
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload Template</title>
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .file-upload-wrapper {
+        border: 2px dashed #ccc;
+        border-radius: 4px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 0.3s;
+      }
+      .file-upload-wrapper:hover {
+        border-color: #007bff;
+      }
+      .file-upload-wrapper input[type="file"] {
+        display: none;
+      }
+      .file-upload-info {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+      }
+      .file-upload-info .file-name {
+        margin-left: 10px;
+      }
+      .file-upload-info .file-remove {
+        margin-left: auto;
+        cursor: pointer;
+        color: #dc3545;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function handleFileUpload(event) {
+        const fileList = event.target.files;
+        const fileUploadInfo = document.getElementById("file-upload-info");
+        fileUploadInfo.innerHTML = "";
+        for (const file of fileList) {
+          const fileInfo = document.createElement("div");
+          fileInfo.classList.add("d-flex", "align-items-center", "mt-2");
+
+          const fileName = document.createElement("span");
+          fileName.classList.add("file-name");
+          fileName.textContent = file.name;
+
+          const fileRemove = document.createElement("span");
+          fileRemove.classList.add("file-remove");
+          fileRemove.innerHTML = "&#128465;"; // Unicode for trash can icon
+          fileRemove.onclick = () => {
+            const inputFile = document.getElementById("file-upload");
+            inputFile.value = "";
+            fileUploadInfo.innerHTML = "";
+          };
+
+          fileInfo.appendChild(fileName);
+          fileInfo.appendChild(fileRemove);
+          fileUploadInfo.appendChild(fileInfo);
+        }
+      }
+    </script>
+
+<script>
+  function handleBulkUpload(event) {
+    const fileList = event.target.files;
+    const fileUploadInfo = document.getElementById("bulk-upload-info");
+    fileUploadInfo.innerHTML = "";
+    for (const file of fileList) {
+      const fileInfo = document.createElement("div");
+      fileInfo.classList.add("d-flex", "align-items-center", "mt-2");
+
+      const fileName = document.createElement("span");
+      fileName.classList.add("file-name");
+      fileName.textContent = file.name;
+
+      const fileRemove = document.createElement("span");
+      fileRemove.classList.add("file-remove");
+      fileRemove.innerHTML = "&#128465;"; // Unicode for trash can icon
+      fileRemove.onclick = () => {
+        const inputFile = document.getElementById("file-upload");
+        inputFile.value = "";
+        fileUploadInfo.innerHTML = "";
+      };
+
+      fileInfo.appendChild(fileName);
+      fileInfo.appendChild(fileRemove);
+      fileUploadInfo.appendChild(fileInfo);
+    }
+  }
+</script>
+  </body>
+</html>
